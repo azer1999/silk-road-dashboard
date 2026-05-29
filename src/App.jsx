@@ -1,5 +1,4 @@
-import React, { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import React, { useState } from "react";
 import {
   Activity,
   AlertTriangle,
@@ -124,21 +123,19 @@ function SectionHeader({ icon: Icon, title, subtitle }) {
   );
 }
 
-// --- ГЛАВНЫЙ КОМПОНЕНТ (ОБЯЗАТЕЛЬНЫЙ ЭКСПОРТ) ---
+// --- ГЛАВНЫЙ КОМПОНЕНТ ---
 function App() {
   const [activeScreen, setActiveScreen] = useState("Strategic Command");
 
   return (
     <div className="min-h-screen bg-slate-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black p-4 md:p-8 text-white font-sans antialiased">
       
-      {/* Заголовок */}
       <PageTitle 
         kicker="Silk Road Intelligence" 
         title="Orchestration Brain" 
         subtitle="Real-time multi-modal logistics corridor intelligence and automated cross-border settlements." 
       />
 
-      {/* Навигация по экранам */}
       <div className="mb-8 flex flex-wrap gap-2 border-b border-white/5 pb-4">
         {screens.map((screen) => (
           <button
@@ -147,7 +144,7 @@ function App() {
             className={cn(
               "rounded-xl px-4 py-2 text-xs font-medium transition-all duration-200",
               activeScreen === screen 
-                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 dynamic-shadow" 
+                ? "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30" 
                 : "text-slate-400 hover:bg-white/5 hover:text-white border border-transparent"
             )}
           >
@@ -156,10 +153,8 @@ function App() {
         ))}
       </div>
 
-      {/* Сетка дашборда */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         
-        {/* Карточка 1: Активные узлы */}
         <Card>
           <SectionHeader icon={Network} title="Corridor Nodes" subtitle="Live infrastructure status" />
           <div className="flex flex-col gap-3">
@@ -177,7 +172,6 @@ function App() {
           </div>
         </Card>
 
-        {/* Карточка 2: Модули оркестрации */}
         <Card>
           <SectionHeader icon={Activity} title="System Modules" subtitle="Automated control layers" />
           <div className="grid grid-cols-2 gap-3">
@@ -193,7 +187,6 @@ function App() {
           </div>
         </Card>
 
-        {/* Карточка 3: Маршруты */}
         <Card>
           <SectionHeader icon={Route} title="Adaptive Routing" subtitle="Dynamic path optimization" />
           <div className="flex flex-col gap-3">
@@ -214,7 +207,6 @@ function App() {
           </div>
         </Card>
 
-        {/* Карточка 4: Поставки (Широкая на 2-3 колонки) */}
         <Card className="lg:col-span-3 md:col-span-2">
           <SectionHeader icon={Ship} title="Active Shipments" subtitle="Risk analysis & queue state" />
           <div className="overflow-x-auto">
@@ -247,7 +239,6 @@ function App() {
           </div>
         </Card>
 
-        {/* Карточка 5: Финансовый клиринг */}
         <Card className="lg:col-span-3 md:col-span-2">
           <SectionHeader icon={WalletCards} title="Settlement Sync" subtitle="CIPS & e-CNY channel optimization" />
           <div className="overflow-x-auto">
@@ -281,5 +272,4 @@ function App() {
   );
 }
 
-// ЭКСПОРТ ПО УМОЛЧАНИЮ (Решает ошибку MISSING_EXPORT)
 export default App;
