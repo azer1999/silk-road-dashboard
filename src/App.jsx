@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import {
   Activity,
   AlertTriangle,
@@ -97,9 +96,7 @@ function StatusBadge({ children, tone = "blue" }) {
   const tones = {
     green: "border-emerald-400/25 bg-emerald-400/10 text-emerald-200",
     yellow: "border-amber-400/25 bg-amber-400/10 text-amber-200",
-    red: "border-red-400/25 bg-red-400/10 text-red-200",
-    blue: "border-cyan-400/25 bg-cyan-400/10 text-cyan-200",
-  };
+    };
   return (
     <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium", tones[tone])}>
       <CircleDot className="h-3 w-3" />
@@ -122,7 +119,6 @@ function SectionHeader({ icon: Icon, title, subtitle }) {
   );
 }
 
-{/* --- КОМПОНЕНТ КАРТЫ С ОБНОВЛЕННЫМ ИСПРАВЛЕННЫМ КОДОМ --- */}
 function StrategicMap() {
   return (
     <div className="relative h-[340px] w-full rounded-[20px] bg-slate-900/40 p-4 border border-white/5">
@@ -135,7 +131,6 @@ function StrategicMap() {
         </svg>
       </div>
 
-      {/* ТУТ НАЧИНАЕТСЯ ОБНОВЛЕННЫЙ ХОРОШИЙ ВАРИАНТ С ПУЛЬСАЦИЕЙ И ПЛАШКАМИ */}
       {nodes.map((n) => (
         <div
           key={n.city}
@@ -182,7 +177,7 @@ function StrategicCommand({ shipments, updateShipmentStatus }) {
                   <th className="pb-3 pl-6">Automated Resolution / Operational Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-white/5 text-xs font-medium">
+              <tbody className="divide-y divide-white/5 text-xs font-medium text-slate-300">
                 {shipments.map((ship) => (
                   <tr key={ship.id} className="group hover:bg-white/[0.02] transition-colors">
                     <td className="py-3.5 font-mono font-semibold text-cyan-400">{ship.id}</td>
@@ -190,7 +185,9 @@ function StrategicCommand({ shipments, updateShipmentStatus }) {
                       {ship.origin} <ArrowRight className="mx-1 inline h-3 w-3 text-slate-500" /> {ship.destination}
                     </td>
                     <td className="py-3.5">
-                      <StatusBadge tone={ship.color}>{ship.status}</StatusBadge>
+                      <span className={cn("inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-medium", ship.color === "green" ? "border-emerald-400/25 bg-emerald-400/10 text-emerald-200" : ship.color === "yellow" ? "border-amber-400/25 bg-amber-400/10 text-amber-200" : "border-red-400/25 bg-red-400/10 text-red-200")}>
+                        {ship.status}
+                      </span>
                     </td>
                     <td className="py-3.5 text-right font-semibold text-slate-100">{ship.risk}%</td>
                     <td className="py-3.5 text-right font-mono text-slate-400">{ship.confidence}%</td>
@@ -260,7 +257,7 @@ function OrchestrationBrain() {
     <Card className="p-8 text-center">
       <SectionHeader icon={Activity} title="Cognitive Pipeline" subtitle="Neural routing mechanics" />
       <div className="py-12">
-        <RadioTower className="mx-auto h-12 w-12 animate-pulse text-cyan-400" />
+        <RadioTower className="mx-auto h-12 w-12 text-cyan-400" />
         <h4 className="mt-4 text-lg font-semibold text-white">Neural Graph Processing</h4>
         <p className="mx-auto mt-2 max-w-md text-sm text-slate-400">Corridor telemetrics are being parsed into decentralized state vectors. Autonomous execution model v4.11 active.</p>
       </div>
@@ -440,14 +437,13 @@ function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-slate-900 via-slate-950 to-black p-4 md:p-8 text-white font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
-      <AnimatePresence>
-        {toast && (
-          <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: -10, scale: 0.95 }} className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2.5 rounded-2xl border border-cyan-500/30 bg-slate-900/90 px-4 py-3 text-xs font-semibold text-cyan-200 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl">
-            <RadioTower className="h-4 w-4 text-cyan-400 animate-pulse" />
-            {toast}
-          </motion.div>
-        )}
-      </AnimatePresence>
+      
+      {toast && (
+        <div className="fixed top-6 left-1/2 z-50 flex -translate-x-1/2 items-center gap-2.5 rounded-2xl border border-cyan-500/30 bg-slate-900/90 px-4 py-3 text-xs font-semibold text-cyan-200 shadow-2xl shadow-cyan-950/20 backdrop-blur-xl">
+          <RadioTower className="h-4 w-4 text-cyan-400 animate-pulse" />
+          {toast}
+        </div>
+      )}
 
       <PageTitle kicker="Customs & Trade Logistics Interface" title="UTIS Orchestration Platform" subtitle="Automated neural routing matrix for multi-modal sovereign corridors. Real-time customs synchronization layer v2.81." />
 
