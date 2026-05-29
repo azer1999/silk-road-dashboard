@@ -76,6 +76,7 @@ function cn(...items) {
   return items.filter(Boolean).join(" ");
 }
 
+// Увеличили min-h для карточки карты, чтобы элементы не сжимались
 function Card({ children, className = "" }) {
   return (
     <div className={cn("rounded-[28px] border border-white/10 bg-slate-950/55 p-6 shadow-2xl shadow-black/30 backdrop-blur-xl", className)}>
@@ -155,23 +156,39 @@ function App() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         
-        <Card>
-          <SectionHeader icon={Network} title="Corridor Nodes" subtitle="Live infrastructure status" />
-          <div className="flex flex-col gap-3">
-            {nodes.map((node) => (
-              <div key={node.city} className="flex justify-between items-center border-b border-white/5 pb-2 last:border-0">
-                <div>
-                  <span className="font-medium text-slate-200">{node.city}</span>
-                  <span className="ml-2 text-xs text-slate-500">({node.country})</span>
+        {/* НОВАЯ ИНТЕРАКТИВНАЯ КАРТА (Вставили сюда) */}
+        <Card className="relative min-h-[400px] overflow-hidden">
+          <SectionHeader icon={Network} title="Corridor Nodes" subtitle="Live infrastructure map" />
+          
+          {/* Контейнер для абсолютного позиционирования точек */}
+          <div className="relative w-full h-72 mt-4 bg-slate-900/30 rounded-2xl border border-white/5">
+            {nodes.map((n) => (
+              <div
+                key={n.city}
+                className="absolute -translate-x-1/2 -translate-y-1/2"
+                style={{
+                  left: `${n.x}%`,
+                  top: `${n.y}%`
+                }}
+              >
+                {/* Анимированный пинг-маркер */}
+                <div className={cn("relative h-4 w-4 rounded-full", n.status === "warning" ? "bg-amber-400" : "bg-emerald-400")}>
+                  <span className={cn("absolute inset-0 animate-ping rounded-full", n.status === "warning" ? "bg-amber-400" : "bg-emerald-400")} />
                 </div>
-                <StatusBadge tone={node.status === "stable" ? "green" : "yellow"}>
-                  {node.status}
-                </StatusBadge>
+                
+                {/* Всплывающая подсказка с городом */}
+                <div className="mt-2 min-w-28 rounded-2xl border border-white/10 bg-slate-950/80 px-3 py-2 shadow-xl backdrop-blur-xl">
+                  <div className="text-xs font-semibold text-white">{n.city}</div>
+                  <div className="text-[10px] text-slate-500">
+                    {n.country} Node · {n.status === "warning" ? "Watch" : "Stable"}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </Card>
 
+        {/* Системные модули */}
         <Card>
           <SectionHeader icon={Activity} title="System Modules" subtitle="Automated control layers" />
           <div className="grid grid-cols-2 gap-3">
@@ -187,6 +204,7 @@ function App() {
           </div>
         </Card>
 
+        {/* Оптимизация маршрутов */}
         <Card>
           <SectionHeader icon={Route} title="Adaptive Routing" subtitle="Dynamic path optimization" />
           <div className="flex flex-col gap-3">
@@ -207,6 +225,7 @@ function App() {
           </div>
         </Card>
 
+        {/* Активные поставки */}
         <Card className="lg:col-span-3 md:col-span-2">
           <SectionHeader icon={Ship} title="Active Shipments" subtitle="Risk analysis & queue state" />
           <div className="overflow-x-auto">
@@ -239,6 +258,7 @@ function App() {
           </div>
         </Card>
 
+        {/* Финансовый клиринг */}
         <Card className="lg:col-span-3 md:col-span-2">
           <SectionHeader icon={WalletCards} title="Settlement Sync" subtitle="CIPS & e-CNY channel optimization" />
           <div className="overflow-x-auto">
